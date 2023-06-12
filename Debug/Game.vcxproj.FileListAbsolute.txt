@@ -1,0 +1,1 @@
+C:\c++\MyGame\Game\Debug\Game.exe

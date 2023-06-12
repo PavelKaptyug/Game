@@ -1,0 +1,22 @@
+﻿  main.cpp
+C:\c++\MyGame\Game\main.cpp(2,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_GetError в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_FreeSurface в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_CreateWindow в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_DestroyWindow в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_Log в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_CreateRenderer в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_CreateTextureFromSurface в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_RenderClear в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_RenderCopy в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_RenderPresent в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_DestroyTexture в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_DestroyRenderer в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_Init в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _SDL_Quit в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ _IMG_Load в функции "int __cdecl SDL_main(void)" (?SDL_main@@YAHXZ).
+MSVCRTD.lib(exe_main.obj) : error LNK2019: ссылка на неразрешенный внешний символ _main в функции "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ).
+C:\c++\MyGame\Game\SDL2\lib\x64\SDL2.lib : warning LNK4272: тип компьютера библиотеки "x64" конфликтует с типом целевого компьютера "x86"
+C:\c++\MyGame\Game\SDL2\lib\x64\SDL2main.lib : warning LNK4272: тип компьютера библиотеки "x64" конфликтует с типом целевого компьютера "x86"
+C:\c++\MyGame\Game\SDL2_image\lib\x64\SDL2_image.lib : warning LNK4272: тип компьютера библиотеки "x64" конфликтует с типом целевого компьютера "x86"
+C:\c++\MyGame\Game\Debug\Game.exe : fatal error LNK1120: неразрешенных внешних элементов: 16
