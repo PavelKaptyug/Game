@@ -1,0 +1,3 @@
+C:/c++/MyGame/Game/build/CMakeFiles/MySDL2App.dir
+C:/c++/MyGame/Game/build/CMakeFiles/edit_cache.dir
+C:/c++/MyGame/Game/build/CMakeFiles/rebuild_cache.dir

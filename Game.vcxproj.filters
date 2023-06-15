@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов\sprites">
+      <UniqueIdentifier>{b675d5dd-1604-43cb-86f6-5788f33c50ac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="spawn.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="ammo.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="tests.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Users\Pavel\Downloads\city.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="hero.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="death.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="love.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="play.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="sprites\bullet.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="sprites\start_back.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="sprites\pause.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="sprites\vrag_2.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="sprites\vrag_3.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+    <Image Include="sprites\vrag_1.jpg">
+      <Filter>Файлы ресурсов\sprites</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Character.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+    <ClInclude Include="spawn.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+    <ClInclude Include="ammo.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+    <ClInclude Include="doctest.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="menu_music.mp3">
+      <Filter>Файлы ресурсов</Filter>
+    </Media>
+  </ItemGroup>
+</Project>
