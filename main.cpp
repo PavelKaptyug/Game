@@ -3,6 +3,8 @@
 #include <SDL_image.h>
 #include "character.h"
 #include "spawn.h"
+#include "ammo.h"
+#include <SDL_mixer.h>
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
@@ -12,8 +14,11 @@ const int CHARACTER_HEIGHT = 120;
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
 SDL_Texture* buttonTexture = nullptr;
-
-bool initializeSDL()
+SDL_Texture* backgroundTexture = nullptr;
+bool game;;
+bool initializeSDL()/**
+                    initializing the SDL library
+                    */
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -34,11 +39,19 @@ bool initializeSDL()
         std::cout << "Failed to create SDL renderer: " << SDL_GetError() << std::endl;
         return false;
     }
+    if(SDL_Init(SDL_INIT_AUDIO)<0)
+        std::cout << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
+    int result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    if (result < 0) {
+        std::cout << "lol";
+    }
 
     return true;
 }
 
-void closeSDL()
+void closeSDL()/**
+               Shutting down the library
+               */
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -48,11 +61,16 @@ void closeSDL()
     SDL_DestroyTexture(buttonTexture);
     buttonTexture = nullptr;
 
+    SDL_DestroyTexture(backgroundTexture);
+    backgroundTexture = nullptr;
+
     IMG_Quit();
     SDL_Quit();
 }
 
-SDL_Texture* loadTexture(const std::string& path)
+SDL_Texture* loadTexture(const std::string& path)/**
+                                                 function for loading texture
+                                                 */
 {
     SDL_Surface* surface = IMG_Load(path.c_str());
     if (surface == nullptr)
@@ -71,30 +89,39 @@ SDL_Texture* loadTexture(const std::string& path)
     return texture;
 }
 
-void StartGame()
+void StartGame()/**
+                The beginning of the gameplay
+                */
 {
-    // Load background image
-    SDL_Texture* backgroundTexture = loadTexture("city.jpg");
-    if (backgroundTexture == nullptr)
-    {
-        closeSDL();
-        return;
-    }
-
-    Character character(500, "hero.jpg");
+    Character character(475, "sprites/hero.jpg",3);
+    backgroundTexture = loadTexture("sprites/city.jpg");
     character.setRenderer(renderer);
     character.loadSprite();
-
     bool quit = false;
+    std::vector<Ammo> ammos;
     SDL_Event event;
-
+    int ammo_pos;
+    bool pause = false;
+    UpdateKol();
+    buttonTexture = loadTexture("sprites/pause.jpg");
     while (!quit)
     {
+        
+        StartSpawn(renderer, character.x);
+        if (character.checkCharacterEnemyCollision(GetPos())) {
+            character.hp--;
+            if (character.hp == 0)
+                quit = true;
+        }
+        AmmoController(renderer, GetPos());
+        if (checkAmmoEnemyCollision(GetPos()))
+            Death();
         while (SDL_PollEvent(&event) != 0)
         {
             if (event.type == SDL_QUIT)
             {
                 quit = true;
+                game = false;
             }
             else if (event.type == SDL_KEYDOWN)
             {
@@ -106,41 +133,89 @@ void StartGame()
                 case SDLK_d:
                     character.moveRight();
                     break;
+                case SDLK_SPACE:
+                    Shot(renderer,character.x,character.direction);
+                    break;
+                case SDLK_ESCAPE:
+                    pause = true;
+                    backgroundTexture = loadTexture("sprites/start_back.jpg");
+                    break;
                 default:
                     break;
                 }
             }
         }
 
-        SDL_RenderClear(renderer);
-
-        // Render the background
         SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
-
-        // Update and render the character
-        character.update();
         character.render();
+        character.UpdateHp();
+        while (pause)
+        {
+            while (SDL_PollEvent(&event) != 0)
+            {
+                if (event.type == SDL_QUIT)
+                {
+                    quit = true;
+                }
+                else if (event.type == SDL_MOUSEBUTTONDOWN)
+                {
+                    int mouseX, mouseY;
+                    SDL_GetMouseState(&mouseX, &mouseY);
 
-        // Update the screen
-        SDL_RenderPresent(renderer);
+                    int buttonWidth, buttonHeight;
+                    SDL_QueryTexture(buttonTexture, nullptr, nullptr, &buttonWidth, &buttonHeight);
+
+                    int buttonX = (SCREEN_WIDTH - buttonWidth) / 2;
+                    int buttonY = (SCREEN_HEIGHT - buttonHeight) / 2;
+
+                    if (mouseX >= buttonX && mouseX < buttonX + buttonWidth &&
+                        mouseY >= buttonY && mouseY < buttonY + buttonHeight)
+                    {
+                        pause = false;
+                        backgroundTexture = loadTexture("sprites/city.jpg");
+                    }
+                }
+            }
+            Mix_HaltMusic();
+
+            SDL_RenderClear(renderer);
+            if (buttonTexture != nullptr)
+            {
+                int buttonWidth, buttonHeight;
+                SDL_QueryTexture(buttonTexture, nullptr, nullptr, &buttonWidth, &buttonHeight);
+
+                int buttonX = (SCREEN_WIDTH - buttonWidth) / 2;
+                int buttonY = (SCREEN_HEIGHT - buttonHeight) / 2;
+
+                SDL_Rect buttonRect = { buttonX, buttonY, buttonWidth, buttonHeight };
+                SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
+                SDL_RenderCopy(renderer, buttonTexture, nullptr, &buttonRect);
+            }
+
+            SDL_RenderPresent(renderer);
+        
+        }
     }
-
-    // Clean up
-    SDL_DestroyTexture(backgroundTexture);
+    Death();
+    UpdateAmmos();
     closeSDL();
 }
-
-int main(int argc, char* argv[])
+int Menu()/**
+          Starting the start menu
+          */ 
 {
     if (!initializeSDL())
     {
         closeSDL();
         return 1;
     }
-
-    SDL_Texture* backgroundTexture = loadTexture("city.jpg");
-    // Create button texture
-    buttonTexture = loadTexture("play.jpg");
+    backgroundTexture = loadTexture("sprites/start_back.jpg");
+    if (backgroundTexture == nullptr)
+    {
+        closeSDL();
+        return 1;
+    }
+    buttonTexture = loadTexture("sprites/play.jpg");
     if (buttonTexture == nullptr)
     {
         closeSDL();
@@ -149,6 +224,8 @@ int main(int argc, char* argv[])
 
     bool quit = false;
     SDL_Event event;
+    Mix_Music* music = Mix_LoadMUS("menu_music.mp3");
+   // Mix_PlayMusic(music, 0);
 
     while (!quit)
     {
@@ -158,6 +235,7 @@ int main(int argc, char* argv[])
             if (event.type == SDL_QUIT)
             {
                 quit = true;
+                game = false;
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -177,14 +255,12 @@ int main(int argc, char* argv[])
                     SDL_DestroyTexture(buttonTexture);
                     buttonTexture = nullptr;
                     StartGame();
-                    StartSpawn();
                 }
             }
         }
+        Mix_HaltMusic();
 
         SDL_RenderClear(renderer);
-
-        // Render the button
         if (buttonTexture != nullptr)
         {
             int buttonWidth, buttonHeight;
@@ -198,11 +274,20 @@ int main(int argc, char* argv[])
             SDL_RenderCopy(renderer, buttonTexture, nullptr, &buttonRect);
         }
 
-        // Update the screen
         SDL_RenderPresent(renderer);
     }
 
     closeSDL();
-
+}
+int main(int argc, char* argv[])/**
+                                the function responsible for the game cycle
+                                */
+{
+    game = true;
+    while (game)
+    {
+        Menu();
+    }
     return 0;
 }
+
